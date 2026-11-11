@@ -1,557 +1,454 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misganaw Tadesse | Guitarist, Composer & Producer</title>
-    <meta name="description" content="Misganaw Tadesse is a guitarist, composer and self-taught producer from Ethiopia, seeking formal training in music theory, arrangement, recording and mixing. Listen to original music and instrumentals.">
-    <meta property="og:title" content="Misganaw Tadesse | Guitarist, Composer & Producer">
-    <meta property="og:description" content="Original music and rock instrumentals by a self-taught guitarist and producer seeking formal music training.">
-    <meta property="og:type" content="website">
-    <!-- To add a social-share image, upload one (1200x630) and add:
-    <meta property="og:image" content="https://YOUR-SITE/share.jpg"> -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎸</text></svg>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>My YouTube Video Catalog</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0a0a0c',
+                        cardbg: '#121217',
+                        bordercolor: '#22222d',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-dark: #0f1115;
-            --bg-card: #181b22;
-            --accent-gold: #d4af37;
-            --accent-gold-light: #f3e5ab;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border-color: rgba(212, 175, 55, 0.2);
-            --border-glow: rgba(212, 175, 55, 0.5);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 90px;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Cinzel', serif;
-            letter-spacing: 0.5px;
-        }
-
-        a:focus-visible, button:focus-visible {
-            outline: 2px solid var(--accent-gold-light);
-            outline-offset: 3px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(15, 17, 21, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-        }
-
-        .nav-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-        }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-gold);
-        }
-
-        .cta-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--accent-gold), #b8860b);
-            color: #0f1115;
-            padding: 0.6rem 1.4rem;
-            border-radius: 4px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-        }
-
-        .hero {
-            padding: 160px 0 90px;
-            text-align: center;
-            background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-        }
-
-        .hero-title {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            line-height: 1.2;
-        }
-
-        .hero-title span {
-            color: var(--accent-gold);
-            display: block;
-            font-size: 1.8rem;
-            margin-top: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 300;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 680px;
-            margin: 0 auto 2rem;
-        }
-
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-outline {
-            display: inline-block;
-            border: 1px solid var(--accent-gold);
-            color: var(--accent-gold);
-            padding: 0.6rem 1.4rem;
-            border-radius: 4px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .btn-outline:hover {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--accent-gold-light);
-        }
-
-        .section {
-            padding: 80px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title {
-            font-size: 2.2rem;
-            color: var(--accent-gold);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-desc {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 0.95rem;
-        }
-
-        .about-card, .scholarship-box, .contact-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 2.5rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .about-text {
-            color: var(--text-main);
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-text:last-child {
-            margin-bottom: 0;
-        }
-
-        .discography-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .album-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .album-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--border-glow);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        .album-info {
-            padding: 1.5rem;
-        }
-
-        .album-title {
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .album-meta {
-            font-size: 0.85rem;
-            color: var(--accent-gold);
-            margin-bottom: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .album-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .yt-link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #ff6b6b;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .yt-link-btn:hover {
-            text-decoration: underline;
-        }
-
-        .skill-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .skill-item {
-            background: rgba(255, 255, 255, 0.02);
-            border-left: 3px solid var(--accent-gold);
-            padding: 1rem;
-            border-radius: 0 6px 6px 0;
-        }
-
-        .skill-item h4 {
-            color: #fff;
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .skill-item p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .goals-list {
-            list-style: none;
-            margin: 1.5rem 0 0;
-            display: grid;
-            gap: 0.9rem;
-        }
-
-        .goals-list li {
-            padding-left: 1.4rem;
-            position: relative;
-            color: var(--text-main);
-            line-height: 1.7;
-        }
-
-        .goals-list li::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0.7em;
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--accent-gold);
-        }
-
-        .contact-card {
-            text-align: center;
-            max-width: 650px;
-        }
-
-        .email-display {
-            font-size: 1.4rem;
-            color: var(--accent-gold);
-            font-weight: 600;
-            margin: 1.5rem 0;
-            display: block;
-            text-decoration: none;
-            word-break: break-word;
-        }
-
-        footer {
-            padding: 2rem 0;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.2rem; }
-            .nav-links { display: none; }
-            .section { padding: 60px 0; }
-            .discography-grid { grid-template-columns: 1fr; }
-            .about-card, .scholarship-box, .contact-card { padding: 1.5rem; }
-            .logo { font-size: 1rem; }
-            .cta-btn { padding: 0.5rem 1rem; font-size: 0.9rem; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
-            * { transition: none !important; }
-        }
+        body { background-color: #0a0a0c; color: #e2e8f0; }
+        .glass-panel { background: rgba(18, 18, 23, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0a0c; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #27273a; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #3f3f5a; }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col font-sans selection:bg-red-500 selection:text-white">
 
-    <header>
-        <div class="container nav-wrapper">
-            <a href="#" class="logo">🎸 MISGANAW TADESSE</a>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#music">Music</a></li>
-                <li><a href="#process">Process & Skills</a></li>
-                <li><a href="#goals">Study Goals</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <a href="https://www.youtube.com/@halleluyastudio" target="_blank" rel="noopener" class="cta-btn">YouTube</a>
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 border-b border-bordercolor glass-panel">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-red-600/10 border border-red-500/30 flex items-center justify-center text-red-500 text-lg shadow-lg shadow-red-900/20">
+                    <i class="fa-brands fa-youtube"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg tracking-tight text-white flex items-center gap-2">
+                        My Video Library
+                        <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 font-semibold">Catalog</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">Curated video collection</p>
+                </div>
+            </div>
+
+            <!-- ADMIN TOGGLE & ACTIONS -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="admin-mode-btn" onclick="toggleAdminMode()" class="px-3.5 py-2 rounded-xl text-xs font-medium border border-bordercolor bg-cardbg text-slate-300 hover:text-white hover:border-slate-700 transition-all flex items-center gap-2 shadow-sm">
+                    <i id="admin-icon" class="fa-solid fa-lock text-slate-400"></i>
+                    <span id="admin-btn-text">Admin Mode</span>
+                </button>
+            </div>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1 class="hero-title">
-                Misganaw Tadesse
-                <span>Guitarist, Composer & Producer</span>
-            </h1>
-            <p class="hero-subtitle">
-                Original songs and rock instrumentals, written, played and recorded by me. Shaped by Hillsong's 2000–2010 sound and the evangelical church music of Ethiopia.
-            </p>
-            <div class="hero-buttons">
-                <a href="#music" class="cta-btn">Listen to my music</a>
-                <a href="https://www.youtube.com/@halleluyastudio" target="_blank" rel="noopener" class="btn-outline">Visit YouTube channel</a>
-            </div>
-        </div>
-    </section>
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-    <section id="about" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">About Me</h2>
-                <p class="section-desc">Where my music comes from</p>
-            </div>
-            <div class="about-card">
-                <!-- OPTIONAL: add a photo of yourself playing here, for example:
-                <img src="your-photo.jpg" alt="Misganaw Tadesse playing electric guitar" style="width:100%;max-height:420px;object-fit:cover;border-radius:6px;margin-bottom:1.5rem;"> -->
-                <p class="about-text">
-                    I'm Misganaw Tadesse, a guitarist and self-taught producer from Ethiopia. I write and record rock music, and my sound is shaped by Hillsong's music from 2000 to 2010 and by Ethiopian evangelical church music.
-                </p>
-                <p class="about-text">
-                    I have no formal music education. I bring what I have to God, like the five loaves and two fish in the Bible, and trust Him to use it. Ethiopian church music taught me that faithfulness matters as much as technique. I have seen God use faithful musicians to touch countless lives in Ethiopia, and I want to follow their example.
-                </p>
-                <p class="about-text">
-                    I now want to add technical skill to that foundation, through structured study of music theory, arrangement, performance, recording and mixing.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section id="music" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Start Here: My Music</h2>
-                <p class="section-desc">Two projects that show my writing, guitar playing and production</p>
+        <!-- SEARCH & CONTROLS BAR -->
+        <section class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+            <!-- Search Input -->
+            <div class="relative flex-grow max-w-lg">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                </span>
+                <input type="text" id="search-input" oninput="handleSearch()" placeholder="Search by title or notes..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-cardbg border border-bordercolor text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-red-500 transition-all shadow-inner">
             </div>
 
-            <div class="discography-grid">
-                <div class="album-card">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/xOvQjy9K004" title="Misganaw Tadesse - Original Mini Album" loading="lazy" allowfullscreen></iframe>
+            <!-- Category Filter Chips -->
+            <div id="category-filters" class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 custom-scrollbar">
+                <!-- Dynamically populated categories -->
+            </div>
+        </section>
+
+        <!-- ADMIN PANEL (Hidden by default) -->
+        <section id="admin-panel" class="hidden glass-panel border border-red-500/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden space-y-6">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-bordercolor pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 text-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <div class="album-info">
-                        <div class="album-meta">Mini Album</div>
-                        <h3 class="album-title">Original Mini Album</h3>
-                        <p class="album-desc">Original songs I wrote, arranged and recorded myself, showing my songwriting and melodic style.</p>
-                        <a href="https://youtu.be/xOvQjy9K004" target="_blank" rel="noopener" class="yt-link-btn">Watch on YouTube ↗</a>
+                    <div>
+                        <h2 class="font-semibold text-white text-base">Admin Dashboard</h2>
+                        <p class="text-[11px] text-slate-400">After adding/removing videos, click Export and update <code class="text-red-400">videos.json</code> on GitHub.</p>
                     </div>
                 </div>
-
-                <div class="album-card">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/SXOcjP_wcRQ" title="Misganaw Tadesse - Instrumental Album" loading="lazy" allowfullscreen></iframe>
-                    </div>
-                    <div class="album-info">
-                        <div class="album-meta">Full Album</div>
-                        <h3 class="album-title">Instrumental Album</h3>
-                        <p class="album-desc">An all-instrumental project built on live electric guitar, with guitar melodies, rhythms and rock arrangements.</p>
-                        <a href="https://youtu.be/SXOcjP_wcRQ" target="_blank" rel="noopener" class="yt-link-btn">Watch on YouTube ↗</a>
-                    </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="exportData()" class="px-3.5 py-2 rounded-xl text-xs font-medium border border-red-500/40 bg-red-500/10 text-red-300 hover:bg-red-500/20 transition-all flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-download text-xs"></i> Export Updated videos.json
+                    </button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="process" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">My Process & Skills</h2>
-                <p class="section-desc">How I make music today</p>
-            </div>
-
-            <div class="scholarship-box">
-                <p class="about-text">
-                    I record my lead electric guitars live, add live bass on select tracks, and build the foundation with virtual drum and bass instruments (VSTs). I learn by listening closely to professional tracks and recreating their sound by ear, and I use learning resources and AI guidance to support my mixing. This works, but I have reached the point where I need a teacher to show me what I can't yet see on my own.
-                </p>
-
-                <div class="skill-list">
-                    <div class="skill-item">
-                        <h4>Live Lead & Bass Guitar</h4>
-                        <p>Expressive lead lines and live bass grooves.</p>
-                    </div>
-                    <div class="skill-item">
-                        <h4>Music Production</h4>
-                        <p>Multi-track arranging, VST instruments and mixing.</p>
-                    </div>
-                    <div class="skill-item">
-                        <h4>Ear Training & Imitation</h4>
-                        <p>Studying professional tracks to model tone and arrangement.</p>
-                    </div>
+            <!-- Add Video Form -->
+            <form id="add-video-form" onsubmit="handleAddVideo(event)" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                <div class="md:col-span-5 space-y-1.5">
+                    <label class="text-xs font-medium text-slate-400">YouTube Video URL</label>
+                    <input type="text" id="video-url" required placeholder="https://www.youtube.com/watch?v=..." class="w-full px-3.5 py-2 rounded-xl bg-darkbg border border-bordercolor text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-red-500 transition-all">
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="goals" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">What I Want to Study</h2>
-                <p class="section-desc">The training I'm looking for, and why</p>
-            </div>
-
-            <div class="about-card">
-                <p class="about-text">
-                    I am looking for formal, mentored training in contemporary music. These are the skills I want to build:
-                </p>
-                <ul class="goals-list">
-                    <li><strong>Music theory and arrangement:</strong> to write and arrange with confidence instead of relying only on my ear.</li>
-                    <li><strong>Performance:</strong> to grow as a guitarist with expert feedback.</li>
-                    <li><strong>Recording and mixing:</strong> to reach professional sound quality in my own productions.</li>
-                </ul>
-                <p class="about-text" style="margin-top: 1.5rem;">
-                    I want to use this training to serve the church, and to strengthen the music I make for Ethiopian congregations.
-                </p>
-                <!-- OPTIONAL: add a recommendation here from a pastor or worship leader who knows your music, e.g.
-                <blockquote>"..." <cite>Name, role</cite></blockquote> -->
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="section">
-        <div class="container">
-            <div class="contact-card">
-                <h2 class="section-title" style="margin-bottom: 1rem;">Get in Touch</h2>
-                <p class="section-desc">
-                    For collaboration, mentoring, or study opportunities, please email me or subscribe on YouTube.
-                </p>
-
-                <a href="mailto:misganawt@gmail.com" class="email-display">misganawt@gmail.com</a>
-
-                <div style="margin-top: 1.5rem;">
-                    <a href="https://www.youtube.com/@halleluyastudio" target="_blank" rel="noopener" class="cta-btn">
-                        Subscribe on YouTube (@halleluyastudio)
-                    </a>
+                
+                <div class="md:col-span-3 space-y-1.5">
+                    <label class="text-xs font-medium text-slate-400">Category</label>
+                    <select id="video-category" class="w-full px-3.5 py-2 rounded-xl bg-darkbg border border-bordercolor text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-all">
+                        <option value="Interview">Interview</option>
+                        <option value="Songs">Songs</option>
+                        <option value="Movies">Movies</option>
+                        <option value="Biography">Biography</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Misganaw Tadesse (Halleluya Studio). All rights reserved.</p>
-        </div>
+                <div class="md:col-span-4 space-y-1.5">
+                    <label class="text-xs font-medium text-slate-400">Custom Title (Optional)</label>
+                    <input type="text" id="video-title" placeholder="Leave blank to auto-fetch" class="w-full px-3.5 py-2 rounded-xl bg-darkbg border border-bordercolor text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-red-500 transition-all">
+                </div>
+
+                <div class="md:col-span-12 space-y-1.5">
+                    <label class="text-xs font-medium text-slate-400">Personal Notes / Description</label>
+                    <input type="text" id="video-notes" placeholder="Add a brief summary or note about why you saved this..." class="w-full px-3.5 py-2 rounded-xl bg-darkbg border border-bordercolor text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-red-500 transition-all">
+                </div>
+
+                <div class="md:col-span-12 flex justify-end gap-3 pt-2">
+                    <button type="submit" class="px-5 py-2 rounded-xl text-xs font-semibold bg-red-600 hover:bg-red-500 text-white transition-all shadow-lg shadow-red-900/20 flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Add Video to Catalog
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- VIDEO GRID -->
+        <section>
+            <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically -->
+            </div>
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center space-y-3">
+                <div class="w-16 h-16 rounded-2xl bg-cardbg border border-bordercolor flex items-center justify-center text-slate-500 text-2xl">
+                    <i class="fa-solid fa-film"></i>
+                </div>
+                <h3 class="text-white font-semibold text-base">No videos found</h3>
+                <p class="text-slate-400 text-xs max-w-sm">Try adjusting your search or category filter, or log into Admin Mode to add videos.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto border-t border-bordercolor py-6 text-center text-xs text-slate-500">
+        <p>YouTube Video Catalog &bull; Hosted on GitHub Pages</p>
     </footer>
 
+    <!-- VIDEO PLAYER MODAL -->
+    <div id="player-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4" onclick="closePlayer(event)">
+        <div class="bg-cardbg border border-bordercolor rounded-2xl w-full max-w-4xl overflow-hidden shadow-2xl relative flex flex-col" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between px-5 py-4 border-b border-bordercolor">
+                <h3 id="modal-title" class="font-semibold text-white text-sm truncate pr-4"></h3>
+                <button onclick="closePlayerModal()" class="w-8 h-8 rounded-xl bg-darkbg border border-bordercolor text-slate-400 hover:text-white flex items-center justify-center transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="relative w-full" style="padding-bottom: 56.25%;">
+                <iframe id="modal-iframe" class="absolute inset-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div id="modal-notes-container" class="px-5 py-4 bg-darkbg/50 border-t border-bordercolor text-xs text-slate-300">
+                <span class="font-semibold text-slate-400 block mb-1">Notes:</span>
+                <p id="modal-notes" class="text-slate-300 italic"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="glass-panel px-4 py-3 rounded-xl border border-emerald-500/30 text-emerald-300 text-xs font-medium shadow-2xl flex items-center gap-2">
+            <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span id="toast-msg">Operation completed successfully</span>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT APP LOGIC -->
+    <script>
+        const ADMIN_PASSWORD_SECRET = "Bs1Hk&HrJames1:5";
+
+        let isAdmin = false;
+        let currentCategory = 'All';
+        let searchQuery = '';
+        let globalVideosList = [];
+
+        const CATEGORIES = ['All', 'Interview', 'Songs', 'Movies', 'Biography', 'Other'];
+
+        // Fetch videos from central videos.json database file
+        async function loadVideosFromJSON() {
+            try {
+                // Fetch JSON with cache-busting timestamp
+                const response = await fetch('videos.json?t=' + Date.now());
+                if (!response.ok) throw new Error('Failed to load videos.json');
+                globalVideosList = await response.json();
+            } catch (error) {
+                console.warn("Could not fetch videos.json, checking localStorage...", error);
+                const localData = localStorage.getItem('my_youtube_catalog');
+                if (localData) {
+                    globalVideosList = JSON.parse(localData);
+                } else {
+                    globalVideosList = [];
+                }
+            }
+            renderVideos();
+        }
+
+        function saveLocalData() {
+            localStorage.setItem('my_youtube_catalog', JSON.stringify(globalVideosList));
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategoryFilters();
+            loadVideosFromJSON();
+        });
+
+        function renderCategoryFilters() {
+            const container = document.getElementById('category-filters');
+            container.innerHTML = CATEGORIES.map(cat => `
+                <button onclick="setCategory('${cat}')" class="px-4 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap border ${currentCategory === cat ? 'bg-red-600 border-red-500 text-white shadow-lg shadow-red-900/20' : 'bg-cardbg border-bordercolor text-slate-400 hover:text-white hover:border-slate-700'}">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            renderCategoryFilters();
+            renderVideos();
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('search-input').value.toLowerCase();
+            renderVideos();
+        }
+
+        function extractYouTubeId(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function renderVideos() {
+            const grid = document.getElementById('video-grid');
+            const emptyState = document.getElementById('empty-state');
+
+            const filtered = globalVideosList.filter(v => {
+                const matchesCat = currentCategory === 'All' || v.category === currentCategory;
+                const matchesSearch = v.title.toLowerCase().includes(searchQuery) || (v.notes && v.notes.toLowerCase().includes(searchQuery));
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(v => `
+                <div class="glass-panel border border-bordercolor rounded-2xl overflow-hidden flex flex-col group hover:border-slate-700 transition-all shadow-xl">
+                    <!-- Thumbnail Container -->
+                    <div class="relative aspect-video bg-darkbg overflow-hidden cursor-pointer" onclick="openPlayerModal('${v.videoId}', '${escapeHtml(v.title)}', '${escapeHtml(v.notes || '')}')">
+                        <img src="https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg" alt="${escapeHtml(v.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-900/50 transform group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play ml-0.5 text-sm"></i>
+                            </div>
+                        </div>
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-black/60 backdrop-blur-md text-slate-200 border border-white/10">
+                            ${v.category}
+                        </span>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-4 flex flex-col flex-grow justify-between space-y-3">
+                        <div class="space-y-1.5">
+                            <h3 onclick="openPlayerModal('${v.videoId}', '${escapeHtml(v.title)}', '${escapeHtml(v.notes || '')}')" class="font-semibold text-sm text-white hover:text-red-400 transition-colors cursor-pointer line-clamp-2">
+                                ${escapeHtml(v.title)}
+                            </h3>
+                            ${v.notes ? `<p class="text-xs text-slate-400 line-clamp-2">${escapeHtml(v.notes)}</p>` : ''}
+                        </div>
+
+                        <!-- Card Footer -->
+                        <div class="pt-3 border-t border-bordercolor/60 flex items-center justify-between text-xs text-slate-500">
+                            <a href="${v.url}" target="_blank" rel="noopener noreferrer" class="hover:text-red-400 transition-colors flex items-center gap-1.5">
+                                <i class="fa-brands fa-youtube"></i> Open on YouTube
+                            </a>
+                            ${isAdmin ? `
+                                <button onclick="deleteVideo('${v.id}')" class="px-2.5 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 transition-all flex items-center gap-1">
+                                    <i class="fa-solid fa-trash text-[10px]"></i> Remove
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Toggle Admin Mode
+        function toggleAdminMode() {
+            if (!isAdmin) {
+                const password = prompt("Enter Admin Password:");
+                if (password === null) return;
+                
+                if (password.trim() === ADMIN_PASSWORD_SECRET) {
+                    isAdmin = true;
+                    document.getElementById('admin-panel').classList.remove('hidden');
+                    document.getElementById('admin-mode-btn').classList.add('border-red-500/50', 'bg-red-500/10', 'text-red-400');
+                    document.getElementById('admin-icon').className = "fa-solid fa-unlock text-red-400";
+                    document.getElementById('admin-btn-text').innerText = "Exit Admin";
+                    showToast("Admin mode activated");
+                    renderVideos();
+                } else {
+                    alert("Wrong password!");
+                    showToast("Incorrect password", "error");
+                }
+            } else {
+                isAdmin = false;
+                document.getElementById('admin-panel').classList.add('hidden');
+                document.getElementById('admin-mode-btn').classList.remove('border-red-500/50', 'bg-red-500/10', 'text-red-400');
+                document.getElementById('admin-icon').className = "fa-solid fa-lock text-slate-400";
+                document.getElementById('admin-btn-text').innerText = "Admin Mode";
+                showToast("Exited admin mode");
+                renderVideos();
+            }
+        }
+
+        // Add Video Handler
+        function handleAddVideo(e) {
+            e.preventDefault();
+            const url = document.getElementById('video-url').value.trim();
+            const category = document.getElementById('video-category').value;
+            let title = document.getElementById('video-title').value.trim();
+            const notes = document.getElementById('video-notes').value.trim();
+
+            const videoId = extractYouTubeId(url);
+            if (!videoId) {
+                alert("Invalid YouTube URL.");
+                return;
+            }
+
+            if (!title) {
+                title = `YouTube Video (${videoId})`;
+            }
+
+            const newVideo = {
+                id: Date.now().toString(),
+                title,
+                url,
+                videoId,
+                category,
+                notes
+            };
+
+            globalVideosList.unshift(newVideo);
+            saveLocalData();
+
+            document.getElementById('add-video-form').reset();
+            renderVideos();
+            showToast("Added! Click 'Export Updated videos.json' to save to GitHub.");
+        }
+
+        // Delete Video Handler
+        function deleteVideo(id) {
+            if (!confirm("Remove this video from the list?")) return;
+            globalVideosList = globalVideosList.filter(v => v.id !== id);
+            saveLocalData();
+            renderVideos();
+            showToast("Removed! Export updated videos.json when finished.");
+        }
+
+        // Export JSON file for updating repository
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(globalVideosList, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "videos.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("videos.json downloaded! Replace it on GitHub.");
+        }
+
+        // Video Player Modal
+        function openPlayerModal(videoId, title, notes) {
+            const modal = document.getElementById('player-modal');
+            const iframe = document.getElementById('modal-iframe');
+            const titleEl = document.getElementById('modal-title');
+            const notesEl = document.getElementById('modal-notes');
+            const notesContainer = document.getElementById('modal-notes-container');
+
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            titleEl.innerText = title;
+            
+            if (notes && notes !== '') {
+                notesEl.innerText = notes;
+                notesContainer.classList.remove('hidden');
+            } else {
+                notesContainer.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closePlayerModal() {
+            const modal = document.getElementById('player-modal');
+            const iframe = document.getElementById('modal-iframe');
+            iframe.src = '';
+            modal.classList.add('hidden');
+        }
+
+        function closePlayer(event) {
+            if (event.target.id === 'player-modal') {
+                closePlayerModal();
+            }
+        }
+
+        // Toast Notifications
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-msg');
+            const iconEl = document.getElementById('toast-icon');
+
+            msgEl.innerText = message;
+            if (type === 'error') {
+                iconEl.className = "fa-solid fa-circle-exclamation text-red-400";
+            } else {
+                iconEl.className = "fa-solid fa-circle-check text-emerald-400";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
