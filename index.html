@@ -43,9 +43,9 @@
                 <div>
                     <h1 class="font-bold text-base sm:text-lg tracking-tight text-white flex items-center gap-2">
                         My Video Library
-                        <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 font-semibold">Catalog</span>
+                        <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 font-semibold">Cloud Catalog</span>
                     </h1>
-                    <p class="text-xs text-slate-400 hidden sm:block">Curated video collection</p>
+                    <p class="text-xs text-slate-400 hidden sm:block">Universal synced collection</p>
                 </div>
             </div>
 
@@ -89,13 +89,8 @@
                     </div>
                     <div>
                         <h2 class="font-semibold text-white text-base">Admin Dashboard</h2>
-                        <p class="text-[11px] text-slate-400">After adding/removing videos, click Export and update <code class="text-red-400">videos.json</code> on GitHub.</p>
+                        <p class="text-[11px] text-emerald-400"><i class="fa-solid fa-circle-check"></i> Connected to JSONBin Cloud Database</p>
                     </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="exportData()" class="px-3.5 py-2 rounded-xl text-xs font-medium border border-red-500/40 bg-red-500/10 text-red-300 hover:bg-red-500/20 transition-all flex items-center gap-1.5 shadow-sm">
-                        <i class="fa-solid fa-download text-xs"></i> Export Updated videos.json
-                    </button>
                 </div>
             </div>
 
@@ -128,8 +123,8 @@
                 </div>
 
                 <div class="md:col-span-12 flex justify-end gap-3 pt-2">
-                    <button type="submit" class="px-5 py-2 rounded-xl text-xs font-semibold bg-red-600 hover:bg-red-500 text-white transition-all shadow-lg shadow-red-900/20 flex items-center gap-2">
-                        <i class="fa-solid fa-plus"></i> Add Video to Catalog
+                    <button type="submit" id="submit-btn" class="px-5 py-2 rounded-xl text-xs font-semibold bg-red-600 hover:bg-red-500 text-white transition-all shadow-lg shadow-red-900/20 flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Add Video to Cloud
                     </button>
                 </div>
             </form>
@@ -154,7 +149,7 @@
 
     <!-- FOOTER -->
     <footer class="mt-auto border-t border-bordercolor py-6 text-center text-xs text-slate-500">
-        <p>YouTube Video Catalog &bull; Hosted on GitHub Pages</p>
+        <p>YouTube Video Catalog &bull; Powered by JSONBin Cloud</p>
     </footer>
 
     <!-- VIDEO PLAYER MODAL -->
@@ -187,6 +182,10 @@
     <!-- MAIN JAVASCRIPT APP LOGIC -->
     <script>
         const ADMIN_PASSWORD_SECRET = "Bs1Hk&HrJames1:5";
+        
+        // JSONBin Credentials
+        const BIN_ID = "6af41befffd5d16053b8af97";
+        const MASTER_KEY = "$2a$10$YMkNCdJ58yOGrsglGq8kBetndf9gaFjyZKUTIl5qXDdx2/dCf8UZ6";
 
         let isAdmin = false;
         let currentCategory = 'All';
@@ -195,33 +194,50 @@
 
         const CATEGORIES = ['All', 'Interview', 'Songs', 'Movies', 'Biography', 'Other'];
 
-        // Fetch videos from central videos.json database file
-        async function loadVideosFromJSON() {
+        // Load videos from JSONBin
+        async function fetchCloudVideos() {
             try {
-                // Fetch JSON with cache-busting timestamp
-                const response = await fetch('videos.json?t=' + Date.now());
-                if (!response.ok) throw new Error('Failed to load videos.json');
-                globalVideosList = await response.json();
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: {
+                        'X-Master-Key': MASTER_KEY
+                    }
+                });
+                if (!response.ok) throw new Error('Failed to fetch from cloud');
+                const result = await response.json();
+                // JSONBin v3 wraps data inside record
+                globalVideosList = Array.isArray(result.record) ? result.record : [];
             } catch (error) {
-                console.warn("Could not fetch videos.json, checking localStorage...", error);
-                const localData = localStorage.getItem('my_youtube_catalog');
-                if (localData) {
-                    globalVideosList = JSON.parse(localData);
-                } else {
-                    globalVideosList = [];
-                }
+                console.error("Cloud fetch error:", error);
+                showToast("Failed to load catalog from cloud", "error");
+                globalVideosList = [];
             }
             renderVideos();
         }
 
-        function saveLocalData() {
-            localStorage.setItem('my_youtube_catalog', JSON.stringify(globalVideosList));
+        // Save updated list to JSONBin
+        async function saveCloudVideos() {
+            try {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': MASTER_KEY
+                    },
+                    body: JSON.stringify(globalVideosList)
+                });
+                if (!response.ok) throw new Error('Failed to save to cloud');
+                return true;
+            } catch (error) {
+                console.error("Cloud save error:", error);
+                showToast("Failed to sync changes to cloud", "error");
+                return false;
+            }
         }
 
         // Initialize App
         document.addEventListener('DOMContentLoaded', () => {
             renderCategoryFilters();
-            loadVideosFromJSON();
+            fetchCloudVideos();
         });
 
         function renderCategoryFilters() {
@@ -342,7 +358,7 @@
         }
 
         // Add Video Handler
-        function handleAddVideo(e) {
+        async function handleAddVideo(e) {
             e.preventDefault();
             const url = document.getElementById('video-url').value.trim();
             const category = document.getElementById('video-category').value;
@@ -368,33 +384,39 @@
                 notes
             };
 
-            globalVideosList.unshift(newVideo);
-            saveLocalData();
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving to Cloud...';
 
-            document.getElementById('add-video-form').reset();
-            renderVideos();
-            showToast("Added! Click 'Export Updated videos.json' to save to GitHub.");
+            globalVideosList.unshift(newVideo);
+            const success = await saveCloudVideos();
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Video to Cloud';
+
+            if (success) {
+                document.getElementById('add-video-form').reset();
+                renderVideos();
+                showToast("Video added and synced globally!");
+            } else {
+                globalVideosList.shift(); // Revert if failed
+            }
         }
 
         // Delete Video Handler
-        function deleteVideo(id) {
-            if (!confirm("Remove this video from the list?")) return;
-            globalVideosList = globalVideosList.filter(v => v.id !== id);
-            saveLocalData();
-            renderVideos();
-            showToast("Removed! Export updated videos.json when finished.");
-        }
+        async function deleteVideo(id) {
+            if (!confirm("Are you sure you want to remove this video from the cloud catalog?")) return;
 
-        // Export JSON file for updating repository
-        function exportData() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(globalVideosList, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "videos.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast("videos.json downloaded! Replace it on GitHub.");
+            const previousList = [...globalVideosList];
+            globalVideosList = globalVideosList.filter(v => v.id !== id);
+            
+            const success = await saveCloudVideos();
+            if (success) {
+                renderVideos();
+                showToast("Video removed from cloud globally!");
+            } else {
+                globalVideosList = previousList; // Revert if failed
+            }
         }
 
         // Video Player Modal
