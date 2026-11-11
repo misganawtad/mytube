@@ -171,6 +171,47 @@
         </div>
     </div>
 
+    <!-- EDIT VIDEO MODAL -->
+    <div id="edit-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-cardbg border border-bordercolor rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl relative p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-bordercolor pb-3">
+                <h3 class="font-semibold text-white text-sm">Edit Video Details</h3>
+                <button onclick="closeEditModal()" class="w-8 h-8 rounded-xl bg-darkbg border border-bordercolor text-slate-400 hover:text-white flex items-center justify-center transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="edit-video-form" onsubmit="handleUpdateVideo(event)" class="space-y-4">
+                <input type="hidden" id="edit-id">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-medium text-slate-400">YouTube Video URL</label>
+                    <input type="text" id="edit-url" required class="w-full px-3.5 py-2 rounded-xl bg-darkbg border border-bordercolor text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-all">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-medium text-slate-400">Category</label>
+                    <select id="edit-category" class="w-full px-3.5 py-2 rounded-xl bg-darkbg border border-bordercolor text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-all">
+                        <option value="Interview">Interview</option>
+                        <option value="Songs">Songs</option>
+                        <option value="Movies">Movies</option>
+                        <option value="Biography">Biography</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-medium text-slate-400">Title</label>
+                    <input type="text" id="edit-title" required class="w-full px-3.5 py-2 rounded-xl bg-darkbg border border-bordercolor text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-all">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-medium text-slate-400">Personal Notes / Description</label>
+                    <input type="text" id="edit-notes" class="w-full px-3.5 py-2 rounded-xl bg-darkbg border border-bordercolor text-sm text-slate-200 focus:outline-none focus:border-red-500 transition-all">
+                </div>
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeEditModal()" class="px-4 py-2 rounded-xl text-xs font-medium border border-bordercolor bg-cardbg text-slate-300 hover:text-white transition-all">Cancel</button>
+                    <button type="submit" id="update-btn" class="px-5 py-2 rounded-xl text-xs font-semibold bg-red-600 hover:bg-red-500 text-white transition-all shadow-lg shadow-red-900/20">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- NOTIFICATION TOAST -->
     <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
         <div class="glass-panel px-4 py-3 rounded-xl border border-emerald-500/30 text-emerald-300 text-xs font-medium shadow-2xl flex items-center gap-2">
@@ -204,7 +245,6 @@
                 });
                 if (!response.ok) throw new Error('Failed to fetch from cloud');
                 const result = await response.json();
-                // JSONBin v3 wraps data inside record
                 globalVideosList = Array.isArray(result.record) ? result.record : [];
             } catch (error) {
                 console.error("Cloud fetch error:", error);
@@ -215,30 +255,28 @@
         }
 
         // Save updated list to JSONBin
-// Save updated list to JSONBin (Fixed for v3 API structure)
-async function saveCloudVideos() {
-    try {
-        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Master-Key': MASTER_KEY
-            },
-            // JSONBin v3 expects the data wrapped in an object or clean array depending on setup
-            body: JSON.stringify(globalVideosList)
-        });
-        
-        if (!response.ok) {
-            const errText = await response.text();
-            throw new Error(`Failed to save to cloud: ${response.status} ${errText}`);
+        async function saveCloudVideos() {
+            try {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': MASTER_KEY
+                    },
+                    body: JSON.stringify(globalVideosList)
+                });
+                
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`Failed to save to cloud: ${response.status} ${errText}`);
+                }
+                return true;
+            } catch (error) {
+                console.error("Cloud save error:", error);
+                showToast("Failed to sync changes to cloud", "error");
+                return false;
+            }
         }
-        return true;
-    } catch (error) {
-        console.error("Cloud save error:", error);
-        showToast("Failed to sync changes to cloud", "error");
-        return false;
-    }
-}
 
         // Initialize App
         document.addEventListener('DOMContentLoaded', () => {
@@ -320,9 +358,14 @@ async function saveCloudVideos() {
                                 <i class="fa-brands fa-youtube"></i> Open on YouTube
                             </a>
                             ${isAdmin ? `
-                                <button onclick="deleteVideo('${v.id}')" class="px-2.5 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 transition-all flex items-center gap-1">
-                                    <i class="fa-solid fa-trash text-[10px]"></i> Remove
-                                </button>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="openEditModal('${v.id}')" class="px-2.5 py-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 transition-all flex items-center gap-1">
+                                        <i class="fa-solid fa-pen text-[10px]"></i> Edit
+                                    </button>
+                                    <button onclick="deleteVideo('${v.id}')" class="px-2.5 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 transition-all flex items-center gap-1">
+                                        <i class="fa-solid fa-trash text-[10px]"></i> Remove
+                                    </button>
+                                </div>
                             ` : ''}
                         </div>
                     </div>
@@ -422,6 +465,65 @@ async function saveCloudVideos() {
                 showToast("Video removed from cloud globally!");
             } else {
                 globalVideosList = previousList; // Revert if failed
+            }
+        }
+
+        // Edit Video Functions
+        function openEditModal(id) {
+            const video = globalVideosList.find(v => v.id === id);
+            if (!video) return;
+
+            document.getElementById('edit-id').value = video.id;
+            document.getElementById('edit-url').value = video.url;
+            document.getElementById('edit-category').value = video.category;
+            document.getElementById('edit-title').value = video.title;
+            document.getElementById('edit-notes').value = video.notes || '';
+
+            document.getElementById('edit-modal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+
+        async function handleUpdateVideo(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const url = document.getElementById('edit-url').value.trim();
+            const category = document.getElementById('edit-category').value;
+            let title = document.getElementById('edit-title').value.trim();
+            const notes = document.getElementById('edit-notes').value.trim();
+
+            const videoId = extractYouTubeId(url);
+            if (!videoId) {
+                alert("Invalid YouTube URL.");
+                return;
+            }
+
+            const updateBtn = document.getElementById('update-btn');
+            updateBtn.disabled = true;
+            updateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+            const previousList = [...globalVideosList];
+            
+            globalVideosList = globalVideosList.map(v => {
+                if (v.id === id) {
+                    return { ...v, url, videoId, category, title, notes };
+                }
+                return v;
+            });
+
+            const success = await saveCloudVideos();
+
+            updateBtn.disabled = false;
+            updateBtn.innerHTML = 'Save Changes';
+
+            if (success) {
+                closeEditModal();
+                renderVideos();
+                showToast("Video updated and synced globally!");
+            } else {
+                globalVideosList = previousList;
             }
         }
 
