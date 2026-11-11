@@ -215,24 +215,30 @@
         }
 
         // Save updated list to JSONBin
-        async function saveCloudVideos() {
-            try {
-                const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': MASTER_KEY
-                    },
-                    body: JSON.stringify(globalVideosList)
-                });
-                if (!response.ok) throw new Error('Failed to save to cloud');
-                return true;
-            } catch (error) {
-                console.error("Cloud save error:", error);
-                showToast("Failed to sync changes to cloud", "error");
-                return false;
-            }
+// Save updated list to JSONBin (Fixed for v3 API structure)
+async function saveCloudVideos() {
+    try {
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': MASTER_KEY
+            },
+            // JSONBin v3 expects the data wrapped in an object or clean array depending on setup
+            body: JSON.stringify(globalVideosList)
+        });
+        
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(`Failed to save to cloud: ${response.status} ${errText}`);
         }
+        return true;
+    } catch (error) {
+        console.error("Cloud save error:", error);
+        showToast("Failed to sync changes to cloud", "error");
+        return false;
+    }
+}
 
         // Initialize App
         document.addEventListener('DOMContentLoaded', () => {
