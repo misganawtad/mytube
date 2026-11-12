@@ -235,10 +235,11 @@
 
         const CATEGORIES = ['All', 'Interview', 'Songs', 'Movies', 'Biography', 'Other'];
 
-        // Load videos from JSONBin
+        // Load videos from JSONBin (with cache-busting for mobile browsers)
         async function fetchCloudVideos() {
             try {
-                const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?t=${Date.now()}`, {
+                    cache: 'no-store',
                     headers: {
                         'X-Master-Key': MASTER_KEY
                     }
@@ -331,7 +332,7 @@
             grid.innerHTML = filtered.map(v => `
                 <div class="glass-panel border border-bordercolor rounded-2xl overflow-hidden flex flex-col group hover:border-slate-700 transition-all shadow-xl">
                     <!-- Thumbnail Container -->
-                    <div class="relative aspect-video bg-darkbg overflow-hidden cursor-pointer" onclick="openPlayerModal('${v.videoId}', '${escapeHtml(v.title)}', '${escapeHtml(v.notes || '')}')">
+                    <div class="relative aspect-video bg-darkbg overflow-hidden cursor-pointer" onclick="openPlayerById('${v.id}')">
                         <img src="https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg" alt="${escapeHtml(v.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                             <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-900/50 transform group-hover:scale-110 transition-transform">
@@ -339,14 +340,14 @@
                             </div>
                         </div>
                         <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[10px] font-semibold bg-black/60 backdrop-blur-md text-slate-200 border border-white/10">
-                            ${v.category}
+                            ${escapeHtml(v.category)}
                         </span>
                     </div>
 
                     <!-- Card Body -->
                     <div class="p-4 flex flex-col flex-grow justify-between space-y-3">
                         <div class="space-y-1.5">
-                            <h3 onclick="openPlayerModal('${v.videoId}', '${escapeHtml(v.title)}', '${escapeHtml(v.notes || '')}')" class="font-semibold text-sm text-white hover:text-red-400 transition-colors cursor-pointer line-clamp-2">
+                            <h3 onclick="openPlayerById('${v.id}')" class="font-semibold text-sm text-white hover:text-red-400 transition-colors cursor-pointer line-clamp-2">
                                 ${escapeHtml(v.title)}
                             </h3>
                             ${v.notes ? `<p class="text-xs text-slate-400 line-clamp-2">${escapeHtml(v.notes)}</p>` : ''}
@@ -354,7 +355,7 @@
 
                         <!-- Card Footer -->
                         <div class="pt-3 border-t border-bordercolor/60 flex items-center justify-between text-xs text-slate-500">
-                            <a href="${v.url}" target="_blank" rel="noopener noreferrer" class="hover:text-red-400 transition-colors flex items-center gap-1.5">
+                            <a href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer" class="hover:text-red-400 transition-colors flex items-center gap-1.5">
                                 <i class="fa-brands fa-youtube"></i> Open on YouTube
                             </a>
                             ${isAdmin ? `
@@ -374,6 +375,7 @@
         }
 
         function escapeHtml(str) {
+            if (!str) return '';
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
 
@@ -448,7 +450,7 @@
                 renderVideos();
                 showToast("Video added and synced globally!");
             } else {
-                globalVideosList.shift(); // Revert if failed
+                globalVideosList.shift();
             }
         }
 
@@ -464,7 +466,7 @@
                 renderVideos();
                 showToast("Video removed from cloud globally!");
             } else {
-                globalVideosList = previousList; // Revert if failed
+                globalVideosList = previousList;
             }
         }
 
@@ -527,19 +529,22 @@
             }
         }
 
-        // Video Player Modal
-        function openPlayerModal(videoId, title, notes) {
+        // Video Player Modal (Safe lookup by ID)
+        function openPlayerById(id) {
+            const video = globalVideosList.find(v => v.id === id);
+            if (!video) return;
+
             const modal = document.getElementById('player-modal');
             const iframe = document.getElementById('modal-iframe');
             const titleEl = document.getElementById('modal-title');
             const notesEl = document.getElementById('modal-notes');
             const notesContainer = document.getElementById('modal-notes-container');
 
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            titleEl.innerText = title;
+            iframe.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1`;
+            titleEl.innerText = video.title;
             
-            if (notes && notes !== '') {
-                notesEl.innerText = notes;
+            if (video.notes && video.notes.trim() !== '') {
+                notesEl.innerText = video.notes;
                 notesContainer.classList.remove('hidden');
             } else {
                 notesContainer.classList.add('hidden');
